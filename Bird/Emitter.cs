@@ -17,6 +17,7 @@ namespace Bird
         public float X;
         public float Y;
 
+        public String organ;
        // public int X; // координата X центра эмиттера, будем ее использовать вместо MousePositionX
        // public int Y; // соответствующая координата Y 
         public int Direction = 0; // вектор направления в градусах куда сыпет эмиттер
@@ -25,7 +26,7 @@ namespace Bird
         public int SpeedMax = 10; // начальная максимальная скорость движения частицы
         public int RadiusMin = 2; // минимальный радиус частицы
         public int RadiusMax = 10; // максимальный радиус частицы
-        public int LifeMin = 20; // минимальное время жизни частицы
+        public int LifeMin = 10; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
 
         public Color ColorFrom = Color.Orange;

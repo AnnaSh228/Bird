@@ -15,6 +15,10 @@ namespace Bird
         List<Emitter> emitters = new List<Emitter>();
         Emitter emitter ;
         //List<Particle> particles = new List<Particle>();
+        bool body = true;
+        bool heart = true;
+        bool tail  = true;
+        bool wings = true;
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +30,7 @@ namespace Bird
             var offset = -50;
             emitter = new Emitter
             {
+                organ = "body",
                 GravitationY = 0, // отключил гравитацию
                 Direction = 0, // направление 0
                 Spreading = 10, // немного разбрасываю частицы, чтобы было интереснее
@@ -50,13 +55,14 @@ namespace Bird
             offset = 75;
             emitter = new Emitter
             {
+                organ = "body",
                 GravitationY = 0, // отключил гравитацию
                 Direction = 0, // направление 0
                 Spreading = 10, // немного разбрасываю частицы, чтобы было интереснее
                 SpeedMin = 10, // минимальная скорость 10
                 SpeedMax = 10, // и максимальная скорость 10
                 ColorFrom = Color.Gold, // цвет начальный
-                ColorTo = Color.Gold, // цвет конечный
+                ColorTo = Color.Orange, // цвет конечный
                 ParticlesPerTick = 10, // 3 частицы за тик генерю
                 X = picBox.Width / 2, // x -- по центру экрана
                 Y = picBox.Height / 2 - offset , // y поднят вверх на offset
@@ -71,7 +77,39 @@ namespace Bird
 
             emitters.Add(emitter);
 
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                organ = "wingL",
+                LifeMax = 20,
+                Direction = 60,
+                Spreading = 60,
+                SpeedMin = 10,
+                SpeedMax = 10,
+                ColorFrom = Color.Gold,
+                ColorTo =Color.Gold,
+                ParticlesPerTick = 10,
+                X = picBox.Width / 2 + offset -10,
+                Y = picBox.Height / 2 - offset/2,
+            };
 
+            emitters.Add(this.emitter);
+
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                organ = "wingR",
+                LifeMax = 20,
+                Direction = 120,
+                Spreading = 60,
+                SpeedMin = 10,
+                SpeedMax = 10,
+                ColorFrom = Color.Gold,
+                ColorTo = Color.Gold,
+                ParticlesPerTick = 10,
+                X = picBox.Width / 2 - offset + 10,
+                Y = picBox.Height / 2 - offset / 2,
+            };
+
+            emitters.Add(this.emitter);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -83,10 +121,12 @@ namespace Bird
                 g.Clear(Color.Black);
                 foreach (var em in emitters)
                 {
-                    em.UpdateState();
-                    
-
-                    em.Render(g);
+                    if ((body && em.organ == "body")
+                        || (wings && (em.organ == "wingR" || em.organ == "wingL")))
+                    {
+                        em.UpdateState();
+                        em.Render(g);
+                    }
                 }
                 picBox.Invalidate();
             }
@@ -102,6 +142,42 @@ namespace Bird
            // emitter.MousePositionX = e.X;
            // emitter.MousePositionY = e.Y;
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            body = checkBox1.Checked;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            tail = checkBox2.Checked;
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            heart = checkBox3.Checked;
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            wings = checkBox4.Checked;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            foreach (var em in emitters)
+            {
+                if(em.organ == "wingL")
+                {
+                    em.Direction = trackBar1.Value - 60;
+                }
+                if (em.organ == "wingR")
+                {
+                    em.Direction = 180 - (trackBar1.Value - 60);
+
+                }
+            }    
         }
     }
 }
