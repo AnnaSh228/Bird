@@ -8,11 +8,6 @@ namespace Bird
     {
         public int Power = 100; // сила притяжения
 
-        public GravityPoint(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
         // а сюда по сути скопировали с минимальными правками то что было в UpdateState
         public override void ImpactParticle(Particle particle)
         {

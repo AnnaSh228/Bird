@@ -8,11 +8,7 @@ namespace Bird
     {
         public int Power = 100; // сила отторжения
 
-        public AntiGravityPoint(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
+
         // а сюда по сути скопировали с минимальными правками то что было в UpdateState
         public override void ImpactParticle(Particle particle)
         {

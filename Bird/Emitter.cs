@@ -14,8 +14,8 @@ namespace Bird
         public float GravitationX = 0;
         public float GravitationY = 1;
 
-        public float MousePositionX;
-        public float MousePositionY;
+        public float X;
+        public float Y;
 
        // public int X; // координата X центра эмиттера, будем ее использовать вместо MousePositionX
        // public int Y; // соответствующая координата Y 
@@ -28,8 +28,10 @@ namespace Bird
         public int LifeMin = 20; // минимальное время жизни частицы
         public int LifeMax = 100; // максимальное время жизни частицы
 
-        public Color colorFrom = Color.Orange;
-        public Color colorTo = Color.FromArgb(0, 0, 0, 0);
+        public Color ColorFrom = Color.Orange;
+        public Color ColorTo = Color.FromArgb(0,Color.Red);
+
+        public int ParticlesPerTick = 10;
 
 
         public int ParticlesCount = 500;
@@ -43,26 +45,22 @@ namespace Bird
 
         public void UpdateState()
         {
+            int particlesToCreate = ParticlesPerTick;
+
             foreach (var particle in particles)
             {
                 particle.Life -= 1; // уменьшаю здоровье
                                     // если здоровье кончилось
                 if (particle.Life < 0)
                 {
+                    ResetParticle(particle);
 
-                    particle.Life = Particle.rnd.Next(LifeMin, LifeMax);
-
-                    particle.X = MousePositionX;
-                    particle.Y = MousePositionY;
-
-                    var direction = Direction
-                        + (double)Particle.rnd.Next(Spreading)
-                        - Spreading / 2;
-                    var Speed = Particle.rnd.Next(SpeedMin, SpeedMax);
-                    particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * Speed);
-                    particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * Speed);
-
-                    particle.Radius = Particle.rnd.Next(RadiusMin, RadiusMax);
+                    if (particlesToCreate > 0)
+                    {
+                        /* у нас как сброс частицы равносилен созданию частицы */
+                        particlesToCreate -= 1; // поэтому уменьшаем счётчик созданных частиц на 1
+                        ResetParticle(particle);
+                    }
                 }
                 else
                 {
@@ -84,19 +82,12 @@ namespace Bird
                     particle.Y += particle.SpeedY;
                 }
             }
-            for (var i = 0; i < 10; ++i)
+            while (particlesToCreate >= 1)
             {
-                if (particles.Count < ParticlesCount)
-                {
-                    var particle = new Particle();
-                    particle.X = MousePositionX;
-                    particle.Y = MousePositionY;
-                    particles.Add(particle);
-                }
-                else
-                {
-                    break;
-                }
+                particlesToCreate -= 1;
+                var particle = CreateParticle();
+                ResetParticle(particle);
+                particles.Add(particle);
             }
         }
 
@@ -109,5 +100,32 @@ namespace Bird
             }
         }
 
+        public virtual void ResetParticle(Particle particle)
+        {
+            particle.Life = Particle.rnd.Next(LifeMin, LifeMax);
+
+            particle.X = X;
+            particle.Y = Y;
+
+            var direction = Direction
+                + (double)Particle.rnd.Next(Spreading)
+                - Spreading / 2;
+
+            var speed = Particle.rnd.Next(SpeedMin, SpeedMax);
+
+            particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
+            particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
+
+            particle.Radius = Particle.rnd.Next(RadiusMin, RadiusMax);
+        }
+
+        public virtual Particle CreateParticle()
+        {
+            var particle = new ParticleColorful();
+            particle.FromColor = ColorFrom;
+            particle.ToColor = ColorTo;
+
+            return particle;
+        }
     }
 }
