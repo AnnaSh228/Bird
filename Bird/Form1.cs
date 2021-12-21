@@ -128,6 +128,29 @@ namespace Bird
             };
 
             emitters.Add(this.emitter);
+
+            offset = 15;
+            emitter = new Emitter
+            {
+                organ = "heart",
+                GravitationY = 0, // отключил гравитацию
+                Direction = 0, // направление 0
+                Spreading = 10, // немного разбрасываю частицы, чтобы было интереснее
+                SpeedMin = 10, // минимальная скорость 10
+                SpeedMax = 10, // и максимальная скорость 10
+                ColorFrom = Color.Red, // цвет начальный
+                ColorTo = Color.DarkRed, // цвет конечный
+                ParticlesPerTick = 10, // 3 частицы за тик генерю
+                X = picBox.Width / 2 + 15, // x -- по центру экрана
+                Y = picBox.Height / 2 - offset - 20, // y поднят вверх на offset
+            };
+            emitter.impactPoints.Add(new GravityPoint
+            {
+                Power = (int)Math.Pow((emitter.SpeedMax + emitter.SpeedMin) / 2, 2),
+                X = emitter.X,
+                Y = emitter.Y + offset,
+            });
+            emitters.Add(this.emitter);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -141,7 +164,8 @@ namespace Bird
                 {
                     if ((body && em.organ == "body")
                         || (wings && (em.organ == "wingR" || em.organ == "wingL"))
-                        || (tail &&  em.organ == "tail"))
+                        || (tail &&  em.organ == "tail") 
+                        || (heart && em.organ == "heart"))
                     {
                         em.UpdateState();
                         em.Render(g);
