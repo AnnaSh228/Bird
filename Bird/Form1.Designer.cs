@@ -30,12 +30,43 @@ namespace Bird
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.picBox = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // picBox
+            // 
+            this.picBox.Location = new System.Drawing.Point(2, 0);
+            this.picBox.Name = "picBox";
+            this.picBox.Size = new System.Drawing.Size(797, 528);
+            this.picBox.TabIndex = 0;
+            this.picBox.TabStop = false;
+            this.picBox.Paint += new System.Windows.Forms.PaintEventHandler(this.picBox_Paint);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 30;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 587);
+            this.Controls.Add(this.picBox);
+            this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox picBox;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
