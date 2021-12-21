@@ -112,7 +112,7 @@ namespace Bird
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(2, 564);
-            this.trackBar1.Maximum = 120;
+            this.trackBar1.Maximum = 80;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(797, 45);
             this.trackBar1.TabIndex = 5;

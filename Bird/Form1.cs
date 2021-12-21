@@ -27,7 +27,7 @@ namespace Bird
 /*           emitter.impactPoints.Add(new GravityPoint(picBox.Width / 2, picBox.Height / 2 - 100));
             emitter.X = picBox.Width / 2;
             emitter.Y = picBox.Height / 2;*/
-            var offset = -50;
+            var offset = -40;
             emitter = new Emitter
             {
                 organ = "body",
@@ -40,7 +40,7 @@ namespace Bird
                 ColorTo = Color.Gold, // цвет конечный
                 ParticlesPerTick = 3, // 3 частицы за тик генерю
                 X = picBox.Width / 2, // x -- по центру экрана
-                Y = picBox.Height / 2 - offset -125, // y поднят вверх на offset
+                Y = picBox.Height / 2 - offset -115, // y поднят вверх на offset
             };
 
             emitter.impactPoints.Add(new GravityPoint
@@ -110,6 +110,24 @@ namespace Bird
             };
 
             emitters.Add(this.emitter);
+
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                organ = "tail",
+                LifeMax = 10,
+                LifeMin = 10,
+                Direction = 270,
+                Spreading = 60,
+                SpeedMin = 5,
+                SpeedMax = 5,
+                ColorFrom = Color.Orange,
+                ColorTo = Color.Gold,
+                ParticlesPerTick = 10,
+                X = picBox.Width / 2 ,
+                Y = picBox.Height / 2  + 75,
+            };
+
+            emitters.Add(this.emitter);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -122,7 +140,8 @@ namespace Bird
                 foreach (var em in emitters)
                 {
                     if ((body && em.organ == "body")
-                        || (wings && (em.organ == "wingR" || em.organ == "wingL")))
+                        || (wings && (em.organ == "wingR" || em.organ == "wingL"))
+                        || (tail &&  em.organ == "tail"))
                     {
                         em.UpdateState();
                         em.Render(g);
@@ -170,11 +189,11 @@ namespace Bird
             {
                 if(em.organ == "wingL")
                 {
-                    em.Direction = trackBar1.Value - 60;
+                    em.Direction = trackBar1.Value - 20;
                 }
                 if (em.organ == "wingR")
                 {
-                    em.Direction = 180 - (trackBar1.Value - 60);
+                    em.Direction = 180 - (trackBar1.Value - 20);
 
                 }
             }    
