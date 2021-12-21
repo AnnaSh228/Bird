@@ -43,6 +43,7 @@ namespace Bird
             this.picBox.TabIndex = 0;
             this.picBox.TabStop = false;
             this.picBox.Paint += new System.Windows.Forms.PaintEventHandler(this.picBox_Paint);
+            this.picBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picBox_MouseMove);
             // 
             // timer1
             // 

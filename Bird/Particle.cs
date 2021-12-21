@@ -15,27 +15,12 @@ namespace Bird
         public float SpeedX; // скорость перемещения
         public float SpeedY; // скорость перемещения
 
-        public float MaxSpeed = 20;
-        public float MinSpeed = 10;
-
         public float Life;
 
         public static Random rnd = new Random();
 
-        public Particle(float x,float y)
-        {
-            X = x;
-            Y = y;
-            
-            Radius = rnd.Next(5, 15);
-            var Direction = (double)rnd.Next(0,360);
-            var Speed = rnd.Next((int)MinSpeed, (int)MaxSpeed);
-            SpeedX = (float)(Math.Cos(Direction / 180 * Math.PI) * Speed);
-            SpeedY = -(float)(Math.Sin(Direction / 180 * Math.PI) * Speed);
-            Life = rnd.Next(20, 120);
-        }
 
-        public void Draw(Graphics g)
+        public virtual void Draw(Graphics g)
         {
 
             var b = new SolidBrush(Color.Red);
