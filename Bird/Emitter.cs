@@ -86,7 +86,7 @@ namespace Bird
             while (particlesToCreate >= 1)
             {
                 particlesToCreate -= 1;
-                var particle = CreateParticle();
+                var particle = CreateParticle();//вызвали метод для генерации частицы
                 ResetParticle(particle);
                 particles.Add(particle);
             }
@@ -94,13 +94,13 @@ namespace Bird
 
         public void Render(Graphics g)
         {
-            // утащили сюда отрисовку частиц
+            //отрисовка частиц
             foreach (var particle in particles)
             {
                 particle.Draw(g);
             }
         }
-
+        //момент генерации частицы и сброса ее состояния, когда жизнь кончается
         public virtual void ResetParticle(Particle particle)
         {
             particle.Life = Particle.rnd.Next(LifeMin, LifeMax);
