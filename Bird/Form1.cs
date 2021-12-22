@@ -27,7 +27,7 @@ namespace Bird
             InitializeComponent();
             picBox.Image = new Bitmap(picBox.Width, picBox.Height);
             
-/*           emitter.impactPoints.Add(new GravityPoint(picBox.Width / 2, picBox.Height / 2 - 100));
+           /*emitter.impactPoints.Add(new GravityPoint(picBox.Width / 2, picBox.Height / 2 - 100));
             emitter.X = picBox.Width / 2;
             emitter.Y = picBox.Height / 2;*/
             var offset = -40;
@@ -193,22 +193,27 @@ namespace Bird
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            body = checkBox1.Checked;
+            if (body = checkBox1.Checked)
+            { body1 = false; }
+            else if (body1 = checkBox1.Checked) { body = false; }
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             tail = checkBox2.Checked;
+            tail1 = checkBox2.Checked;
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
             heart = checkBox3.Checked;
+
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
             wings = checkBox4.Checked;
+            wings1 = checkBox4.Checked;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -292,8 +297,8 @@ namespace Bird
                 Spreading = 60,
                 SpeedMin = 10,
                 SpeedMax = 10,
-                ColorFrom = Color.PaleGreen,
-                ColorTo = Color.ForestGreen,
+                ColorFrom = Color.LightSeaGreen,
+                ColorTo = Color.GreenYellow,
                 ParticlesPerTick = 10,
                 X = picBox.Width / 2 + offset - 10,
                 Y = picBox.Height / 2 - offset / 2,
@@ -309,8 +314,8 @@ namespace Bird
                 Spreading = 60,
                 SpeedMin = 10,
                 SpeedMax = 10,
-                ColorFrom = Color.PaleGreen,
-                ColorTo = Color.ForestGreen,
+                ColorFrom = Color.LightSeaGreen,
+                ColorTo = Color.GreenYellow,
                 ParticlesPerTick = 10,
                 X = picBox.Width / 2 - offset + 10,
                 Y = picBox.Height / 2 - offset / 2,
@@ -340,7 +345,113 @@ namespace Bird
 
         private void button2_Click(object sender, EventArgs e)
         {
+            body1 = false;
+            tail1 = false;
+            wings1 = false;
+            body = true;
+            tail = true;
+            wings = true;
+            var offset = -40;
+            emitter = new Emitter
+            {
+                organ = "body",
+                GravitationY = 0, // отключение гравитации
+                Direction = 0, // направление 0
+                Spreading = 10, // немного разбрасываем частицы
+                SpeedMin = 10, // минимальная скорость 10
+                SpeedMax = 10, //  максимальная скорость 10
+                ColorFrom = Color.Gold, // цвет начальный
+                ColorTo = Color.Gold, // цвет конечный
+                ParticlesPerTick = 3, // генерирование 3 частицы за тик
+                X = picBox.Width / 2, // x -- по центру экрана
+                Y = picBox.Height / 2 - offset - 115, // y поднят вверх на offset
+            };
 
+            emitter.impactPoints.Add(new GravityPoint
+            {
+                Power = (int)Math.Pow((emitter.SpeedMax + emitter.SpeedMin) / 2, 2),
+                X = emitter.X,
+                Y = emitter.Y + offset,
+            });
+
+            emitters.Add(emitter);
+
+            offset = 75;
+            emitter = new Emitter
+            {
+                organ = "body",
+                GravitationY = 0, // отключение гравитации
+                Direction = 0, // направление 0
+                Spreading = 10, //разбрасываем частицы
+                SpeedMin = 10, // минимальная скорость 10
+                SpeedMax = 10, // максимальная скорость 10
+                ColorFrom = Color.Gold, // цвет начальный
+                ColorTo = Color.Orange, // цвет конечный
+                ParticlesPerTick = 10, // генерирование 3 частицы за тик
+                X = picBox.Width / 2, // x -- по центру экрана
+                Y = picBox.Height / 2 - offset, // y поднят вверх на offset
+            };
+
+            emitter.impactPoints.Add(new GravityPoint
+            {
+                Power = (int)Math.Pow((emitter.SpeedMax + emitter.SpeedMin) / 2, 2),
+                X = emitter.X,
+                Y = emitter.Y + offset,
+            });
+
+            emitters.Add(emitter);
+
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                organ = "wingL",
+                LifeMax = 20,
+                Direction = 60,
+                Spreading = 60,
+                SpeedMin = 10,
+                SpeedMax = 10,
+                ColorFrom = Color.Gold,
+                ColorTo = Color.Gold,
+                ParticlesPerTick = 10,
+                X = picBox.Width / 2 + offset - 10,
+                Y = picBox.Height / 2 - offset / 2,
+            };
+
+            emitters.Add(this.emitter);
+
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                organ = "wingR",
+                LifeMax = 20,
+                Direction = 120,
+                Spreading = 60,
+                SpeedMin = 10,
+                SpeedMax = 10,
+                ColorFrom = Color.Gold,
+                ColorTo = Color.Gold,
+                ParticlesPerTick = 10,
+                X = picBox.Width / 2 - offset + 10,
+                Y = picBox.Height / 2 - offset / 2,
+            };
+
+            emitters.Add(this.emitter);
+
+            this.emitter = new Emitter // создаю эмиттер и привязываю его к полю emitter
+            {
+                organ = "tail",
+                LifeMax = 10,
+                LifeMin = 10,
+                Direction = 270,
+                Spreading = 60,
+                SpeedMin = 5,
+                SpeedMax = 5,
+                ColorFrom = Color.Orange,
+                ColorTo = Color.Gold,
+                ParticlesPerTick = 10,
+                X = picBox.Width / 2,
+                Y = picBox.Height / 2 + 75,
+            };
+
+            emitters.Add(this.emitter);
         }
     }
 }
